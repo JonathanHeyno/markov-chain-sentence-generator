@@ -1,4 +1,4 @@
-# Markov-chain-sentence-generator
+# Markov chain sentence generator
 
 A program for generating text based on a given input file using Markov chains.
 
