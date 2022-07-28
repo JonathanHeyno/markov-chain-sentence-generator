@@ -1,0 +1,10 @@
+*__pycache__/
+*.db
+log.html
+output.xml
+report.html
+dist/
+venv/
+saves/
+.coverage
+htmlcov
