@@ -5,7 +5,7 @@
 This program runs with Python, which needs to be installed.
 
 1) Clone the repository
-2) Install the dependencies from [requirements.txt](/../requirements.txt) using command`pip install requirements.txt`. If you also want to run the unit tests and Pylint, use file [requirements_dev.txt](/../requirements_dev.txt) instead.
+2) Install the dependencies from [requirements.txt](../requirements.txt) using command`pip install requirements.txt`. If you also want to run the unit tests and Pylint, use file [requirements_dev.txt](../requirements_dev.txt) instead.
 3) Run command `python src/index.py` in the root
 
 ## Using the program
