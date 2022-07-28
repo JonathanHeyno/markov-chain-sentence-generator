@@ -5,7 +5,7 @@ This document details the results of testing the program
 Unit testing is done with automated tests using Pytest ([Unit test coverage report](https://jonathanheyno.github.io/tiramarkovchaincodecov/index.html)). The overall test coverage is currently 98%
 
 If you want to run the tests locally:
-1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with pip install -r requirements_dev.txt`
+1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`
 2) to get the test coverage, run `coverage report -m` in the project root folder
 2) if instead you want a html version of the coverage report:
 	- run command `coverage run --branch -m pytest src`
