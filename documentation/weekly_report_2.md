@@ -5,7 +5,7 @@ Hours spent: 22
 
 - Created ui
 - Implemented reading in text file and removing special characters
-- Logic for creaeting trie structure and storing word frequencies of source file
+- Logic for creating trie structure and storing word frequencies of source file
 - Unit tests for above functionalities 
 - Code quality improved with Lint
 - Updated documentation
