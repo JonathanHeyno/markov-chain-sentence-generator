@@ -26,5 +26,5 @@ else:
     if not os.path.exists(dirname + '/saves/'):
         os.makedirs(dirname + '/saves/')
 
-    SOURCE_FILE_PATH = os.path.join(dirname, 'sourcedata')
+    SOURCE_FILE_PATH = os.path.join(dirname, 'sourcedata/')
     SAVE_FILE_PATH = os.path.join(dirname, 'saves/')
