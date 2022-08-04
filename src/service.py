@@ -97,6 +97,15 @@ class Service():
 
 
     def generate_text(self, max_length, initial_words):
+        """Generates text from the source file according to the Markov chain.
+
+        Args:
+            max_length (int): maximum amount of words to be generated
+            initial_words (array): Optional. The first words that start the chain. Random words chosen if empty
+
+        Returns:
+            string: the generated text or an error message if fails
+        """
         if initial_words:
             if not trie.traverse(initial_words):
                 return 'ERROR!!! COULD NOT GET INITIAL WORDS'
