@@ -9,7 +9,7 @@ Hours spent: 14
 
 ## Issues
 
--nltk tokenize package does the following: 'my brother's printer' --> ['my', 'brother', 's', 'printer']. It seems to not handle genitive forms correctly since it splits the word from the apostrophe into two separate words, e.g. brother's --> ['brother' + 's']. Need to maybe use something else instead or write logic for tokenizing myself.
+- nltk tokenize package does the following: 'my brother's printer' --> ['my', 'brother', 's', 'printer']. It seems to not handle genitive forms correctly since it splits the word from the apostrophe into two separate words, e.g. brother's --> ['brother' + 's']. Need to maybe use something else instead or write logic for tokenizing myself.
 
 - The generated text is kind of rambling. Increasing the order of the Markov chain might help.
 
