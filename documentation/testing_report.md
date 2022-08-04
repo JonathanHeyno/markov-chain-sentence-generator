@@ -2,7 +2,7 @@
 This document details the results of testing the program
 
 ## Unit testing
-Unit testing is done with automated tests using Pytest ([Unit test coverage report](https://jonathanheyno.github.io/tiramarkovchaincodecov/index.html)). The overall test coverage is currently 98%
+Unit testing is done with automated tests using Pytest ([Unit test coverage report](https://jonathanheyno.github.io/tiramarkovchaincodecov/index.html)). The overall test coverage is currently 96%
 
 If you want to run the tests locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`
@@ -12,7 +12,7 @@ If you want to run the tests locally:
 	- then run `coverage html`. The report will be created into the folder `htmlcov`
 
 ## Code quality
-Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.66.
+Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.59.
 
 To run the Pylint check locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`

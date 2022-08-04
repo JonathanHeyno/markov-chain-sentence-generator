@@ -40,3 +40,16 @@ class UI:
                         print('\nWORDS FOUND, FREQUENCY = ' + str(frequency) + '\n')
                     else:
                         print('\nWORDS NOT FOUND. MAYBE TRIE NEEDS TO BE RECREATED AFTER RE-READING NEW INPUT FILE OR CHANGING MARKOV ORDER\n')
+
+            if choice == 'g':
+                max_length = input('\n\nSet maximum amount of words in generated text (default = 100): ')
+                if not max_length.isnumeric():
+                    max_length = '100'
+
+                initial_words = input("\nEnter "+ str(service.order)+ " initial words or start with random words (Enter): ").lower().split()
+                if (not initial_words or len(initial_words) == service.order):
+                    text = service.generate_text(int(max_length), initial_words)
+                    print('\nGENERATED TEXT:\n\n')
+                    print(text)
+                else:
+                    print('\nYOU MUST INPUT ' + str(service.order) + ' WORDS OR NO WORDS!\n')

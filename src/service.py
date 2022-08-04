@@ -29,10 +29,8 @@ class Service():
     def read_source_file(self, filename):
         """Reads in a new text file ignoring special characters and numbers,
         and forms an array of the words
-
         Args:
             filename (string): the name of the file in 'sourcedata' folder
-
         Returns:
             string: message about succesfully reading the file or failing
         """
@@ -92,9 +90,32 @@ class Service():
         Returns:
             integer: the amount of times the word list has occurred in the source text
         """
-        last_node = trie.search(words)
+        last_node = trie.traverse(words)
         if not last_node:
             return 0
         return last_node.frequency
+
+
+    def generate_text(self, max_length, initial_words):
+        if initial_words:
+            if not trie.traverse(initial_words):
+                return 'ERROR!!! COULD NOT GET INITIAL WORDS'
+        else:
+            initial_words = trie.choose_initial_words(self._order)
+
+
+        generated_text = ' '.join(initial_words)
+
+        base_words = initial_words
+        for _ in range(max_length - self._order):
+            next_word = trie.get_next_word(base_words)
+            if not next_word:
+                return generated_text
+            generated_text += ' '+ next_word
+            base_words.pop(0)
+            base_words.append(next_word)
+
+        return generated_text
+
 
 service = Service()

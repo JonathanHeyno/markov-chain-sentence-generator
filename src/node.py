@@ -1,3 +1,5 @@
+import random
+
 class Node():
 
     def __init__(self):
@@ -32,3 +34,22 @@ class Node():
         """increases the amount of times this node has occurred as the last node in a list of words
         """
         self._frequency += 1
+
+
+    def choose_any_child(self):
+        if not self.next_words:
+            return '', None
+        return random.choice(list(self.next_words.items()))
+
+    def select_next_word(self):
+        words = []
+        cumulative_weights = []
+
+        cum_weight = 0
+        for word, node in self.next_words.items():
+            words.append(word)
+            cumulative_weights.append(cum_weight + node.frequency)
+            cum_weight += node.frequency
+
+        word = random.choices(words, cum_weights=cumulative_weights)
+        return word[0]

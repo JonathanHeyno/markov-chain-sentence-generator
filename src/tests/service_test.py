@@ -35,3 +35,18 @@ class TestService(unittest.TestCase):
         self.assertAlmostEqual(self.service.order, 3)
         words = ['and', 'god', 'said', 'let']
         self.assertEqual(self.service.search_trie(words), 0)
+
+    def test_can_generate_txt(self):
+        self.service.create_trie_and_count_frequencies()
+        generated_text = self.service.generate_text(200, [])
+        self.assertGreater(len(generated_text), 2)
+
+    def test_can_generate_txt_with_given_initial_words(self):
+        self.service.create_trie_and_count_frequencies()
+        generated_text = self.service.generate_text(200, ['earth', 'after'])
+        self.assertGreater(len(generated_text), 12)
+
+    def test_fail_to_generate_text_with_faulty_initial_words(self):
+        self.service.create_trie_and_count_frequencies()
+        generated_text = self.service.generate_text(200, ['aaaa', 'bbbbb'])
+        self.assertEqual(generated_text, 'ERROR!!! COULD NOT GET INITIAL WORDS')
