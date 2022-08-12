@@ -2,7 +2,7 @@
 This document details the results of testing the program
 
 ## Unit testing
-Unit testing is done with automated tests using Pytest ([Unit test coverage report](https://jonathanheyno.github.io/tiramarkovchaincodecov/index.html)). The overall test coverage is currently 96%
+Unit testing is done with automated tests using Pytest ([Unit test coverage report](https://jonathanheyno.github.io/tiramarkovchaincodecov/index.html)). The overall test coverage is currently 84%
 
 If you want to run the tests locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`
@@ -11,8 +11,14 @@ If you want to run the tests locally:
 	- run command `coverage run --branch -m pytest src`
 	- then run `coverage html`. The report will be created into the folder `htmlcov`
 
+## Manual testing
+
+The program is tested with different texts, and quality of generated text is evaluated according to contents and grammatical structure.
+
+After implementing part of speech tagging the quality has not improved on either metric so far, in fact has possibly worsened.
+
 ## Code quality
-Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.59.
+Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 8.24.
 
 To run the Pylint check locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`

@@ -15,5 +15,4 @@ The program uses a text interface. Currently it is able to read in a given text 
 2) Tell the program to read in the file
 3) The default order of the Markov chain is 2. Change it if you want something else
 4) Tell the program to create the trie structure
-5) You can now search the trie. E.g. if the order of the Markov chain is 2, you need to search for three consecutive words, for example 'of the earth', which will tell you how often that three word phrase occurres in the source text.
-6) Generating text does not work yet
+5) You can now generate text. Give the program a maximum amount of words to generate.
