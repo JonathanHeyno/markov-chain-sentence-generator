@@ -4,8 +4,11 @@ from pathlib import Path
 import nltk
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
+nltk.download('universal_tagset')
+from nltk.tag import pos_tag, map_tag
 from nltk.tokenize import wordpunct_tokenize
 from nltk.tokenize import PunktSentenceTokenizer
+from nltk.corpus import stopwords
 from config import SOURCE_FILE_PATH
 from trie import Trie
 
@@ -14,9 +17,8 @@ class Service():
 
     def __init__(self):
         self._text= []
-        self._sentence_structures = []
         self._source_file = ''
-        self._order = 2
+        self._order = 3
         self._word_trie = Trie()
 
 
@@ -38,11 +40,6 @@ class Service():
             self._word_trie.reset()
         self._order = int(value)
 
-    @order_sentence_structure.setter
-    def order_sentence_structure(self, value):
-        if value != self._order_sentence_structure:
-            self._sentence_struct_trie.reset()
-        self._order_sentence_structure = int(value)
 
     def read_source_file(self, filename):
         """Reads in a new text file ignoring special characters and numbers,
@@ -75,10 +72,12 @@ class Service():
             text = []
             print('\nCleaning text...')
             chars_to_remove = "0123456789_\"+{}(),:;*&@$#[]-^-\\"
-            special_words = {"Mr.": "Mr", "Dr.": "Dr", "Mrs.": "Mrs", "Ms.": "Ms", "Prof.": "Prof", "e.g.": "eg", "i.e.": "ie"}
+            special_words = {"Mr.": "Mr", "Dr.": "Dr", "Mrs.": "Mrs", "Ms.": "Ms", "Prof.": "Prof", "E.g.": "Eg", "I.e.": "Ie", "etc.": "etc", "i.e.": "ie", "e.g.": "eg"}
             previous_word = 'a'
             for line in f:
                 line = line.strip()
+                # Maybe not good idea to make lower because then names may become nouns
+                #line = line.lower()
                 words = line.split()
                 for word in words:
 
@@ -131,40 +130,14 @@ class Service():
                             if len(cleaned_word) > 1 and not cleaned_word[-2] == "s":
                                 cleaned_word = cleaned_word[:-1]
                         if cleaned_word in special_words:
-                            text.append(special_words.get(cleaned_word))
+                            text.append(special_words.get(cleaned_word).lower())
                         else:
-                            text.append(cleaned_word)
+                            text.append(cleaned_word.lower())
 
 
-        cleaned_text = ' '.join(text)
-
-        print('Performing sentence tokenization (this may take a few minutes)...')
-        sentence_tokenizer = PunktSentenceTokenizer()
-        sentences = sentence_tokenizer.tokenize(cleaned_text)
-        count_sentences = len(sentences)
-        print('Read total of '+ str(count_sentences) +' sentences')
-
-        print('Tokenizing words and tagging parts of speech...')
-
-        i = 0
-        for sentence in sentences:
-            words = nltk.word_tokenize(sentence)
-            words_pos = nltk.pos_tag(words)
-
-            sentence_structure = []
-            for word in words_pos:
-                sentence_structure.append(word[1])
-            self._sentence_structures.append(sentence_structure)
-
-            words_to_remove = ".?!"
-            for word_pos in words_pos:
-                if not word_pos[0] in words_to_remove:
-                    self._text.append((word_pos[0].lower(), word_pos[1]))
-
-            # This is just to let the user know how the program is progressing
-            i += 1
-            if i % 1000 == 0:
-                print('Tagged '+ str(i) + '/' + str(count_sentences))
+            print('Tokenizing text...')
+            cleaned_text = ' '.join(text)
+            self._text = nltk.word_tokenize(cleaned_text)
 
 
         self._source_file = filename
@@ -185,16 +158,48 @@ class Service():
 
         self._word_trie.reset()
 
-        # Insert a word + the next n words into the trie
-        # repeat for all words in source text file
+        # Create our own list of stop words, because otherwise there will be too many
+        # stop words and the end result is that we just repeat the source data
+        stop_words = {'the', 'a', 'an'}
+        words_to_trie = []
+        stop_words_to_save = []
         index = 0
-        while index + self._order < num_words:
-            words = []
-            for i in range(self._order + 1):
-                words.append(self._text[index + i])
-            self._word_trie.insert_words_and_increase_frequency(words)
+
+        # Get first n words skipping stop words
+        while len(words_to_trie) < self._order and index < num_words:
+            if self._text[index] not in ".?!" and self._text[index] not in stop_words:
+                words_to_trie.append(self._text[index])
             index += 1
+
+        #Get the next word, and also record any possible stop words that come before it
+        while len(words_to_trie) < self._order + 1 and index < num_words:
+            if self._text[index] in stop_words:
+                stop_words_to_save.append(self._text[index])
+            else:
+                if not self._text[index] in ".?!":
+                    words_to_trie.append(self._text[index])
+            index += 1
+
+        # add first n words to trie
+        if len(words_to_trie) == self._order + 1:
+            self._word_trie.insert_words_and_increase_frequency(words_to_trie, ' '.join(stop_words_to_save))
+
+        stop_words_to_save = []
+        # go through remaining text and add to trie
+        while index < num_words - self._order:
+            while index < num_words - self._order and (self._text[index] in stop_words):
+                stop_words_to_save.append(self._text[index])
+                index += 1
+
+            if not self._text[index] in ".?!":
+                words_to_trie.pop(0)
+                words_to_trie.append(self._text[index])
+                self._word_trie.insert_words_and_increase_frequency(words_to_trie, ' '.join(stop_words_to_save))
+                stop_words_to_save = []
+            index += 1
+
         return '\nTRIE CREATED\n'
+
 
 
 
@@ -224,51 +229,31 @@ class Service():
             string: the generated text or an error message if fails
         """
 
-        # Here we select a structure to follow, e.g. pronoun - verb - preposition - article - adjective ...
-        sentence_structure = []
-        while len(sentence_structure) < 2 * max_length: #Change later? Now *2 to make sure we don't get index error when skipping '!?.'
-            sentence_structure += choice(self._sentence_structures)
-        
-        # We need to select n initial words to start the chain
-        if initial_words:
-            if not self._word_trie.traverse(initial_words):
-                return 'ERROR!!! COULD NOT GET INITIAL WORDS'
-        else:
-            try:
-                initial_words = self._word_trie.choose_initial_words(self._order, sentence_structure)
-            except:
-                return 'SOMETHING WENT WRONG, TRY GENERATING TEXT AGAIN'
+
+        initial_words = self._word_trie.choose_initial_words(self._order)
 
         # Add the initial words to the text that will be returned
         generated_text = ' '.join(initial_words)
 
-        # Here we start the Markov process. We take n words and select the next word according to the probabilities of subsequent
-        # words following the n words in the input text. Currently we also require that the word is has the same
-        # part of speech (verb, noun, etc.) as required by the selected sentence structure
-        base_words = initial_words
-        amount_of_pos_to_skip = 0 # This is for skipping each ?!. in the sentence structure when getting the next word
 
-        for i in range(self._order, max_length):
-            # skipping .?! in the sentence structure. Every time there is a .!? in the sentence structure, we offset i by 1
-            if sentence_structure[i + amount_of_pos_to_skip] in '.!?':
-                generated_text += sentence_structure[i + amount_of_pos_to_skip]
-                amount_of_pos_to_skip += 1
+        base_words = initial_words[:]
+        index = len(initial_words)
 
-            # We get the next word according to the n previous words and require it to be of the form (verb, noun, etc.)
-            # that is required in the sentence structure
-            next_word = self._word_trie.get_next_word(base_words, sentence_structure[i + amount_of_pos_to_skip])
+        while index < max_length:
+            next_word, stop_words = self._word_trie.get_next_word(base_words)
 
-            # in case something goes wrong and we didn't get any more words
             if not next_word:
                 return generated_text
 
-            # word is added to generated text, and becomes part of the n words required to get the next word.
-            # e.g. if we initially have the words: "the" "dog"   --> and we get the word "is",
-            # the word "is" is added to the generated text, and the next word will be selected according to
-            # the words: "dog" "is" --> "happy"
-            generated_text += ' '+ next_word
-            base_words.pop(0)
-            base_words.append(next_word)
+            if stop_words == '_NONE_':
+                generated_text += ' ' + next_word
+                base_words.pop(0)
+                base_words.append(next_word)
+            else:
+                generated_text += ' ' + stop_words + ' ' + next_word
+                base_words.pop(0)
+                base_words.append(next_word)
+            index += 1
 
         return generated_text
 

@@ -2,7 +2,7 @@
 The goal of the project is to create a program that can generate sentences based on an input of text, e.g. one or more books, poems, articles, musical lyrics, etc. Presumably the program will generate sentences in a similar style to the given input text.
 
 ## Program structure
-First the input text is processed / cleaned by removing special characters, breaking the text up into sentences, and tagging the parts of speech for each word in the text.
+First the input text is processed / cleaned by removing special characters.
 
 The program then creates a trie structure where, depending on the order of the Markov chain, each word from the source text followed by the next n consecutive words are stored along with the frequency at which they occur in the text.
 

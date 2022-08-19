@@ -30,6 +30,29 @@ class UI:
                 else:
                     print('\nMUST BE A NUMBER\n')
 
+            if choice == 's':
+                words = input("\nEnter search words (e.g. the cat jumped): ").lower().split()
+                if len(words) != service.order + 1:
+                    print('\nMARKOV CHAIN IS ORDER '+ str(service.order) + '. MUST INPUT ' + str(service.order + 1) + ' WORDS\n')
+                else:
+                    frequency = service.search_trie(words)
+                    if frequency > 0:
+                        print('\nWORDS FOUND, FREQUENCY = ' + str(frequency) + '\n')
+                    else:
+                        print('\nWORDS NOT FOUND. MAYBE TRIE NEEDS TO BE RECREATED AFTER RE-READING NEW INPUT FILE OR CHANGING MARKOV ORDER\n')
+
+            if choice == 't':
+                words = input("\nEnter search words (e.g. the cat jumped): ").lower().split()
+                if len(words) != service.order + 1:
+                    print('\nMARKOV CHAIN IS ORDER '+ str(service.order) + '. MUST INPUT ' + str(service.order + 1) + ' WORDS\n')
+                else:
+                    frequency = service.search_stop_word_trie(words)
+                    if frequency > 0:
+                        print('\nWORDS FOUND, FREQUENCY = ' + str(frequency) + '\n')
+                    else:
+                        print('\nWORDS NOT FOUND. MAYBE TRIE NEEDS TO BE RECREATED AFTER RE-READING NEW INPUT FILE OR CHANGING MARKOV ORDER\n')
+
+
             if choice == 'g':
                 max_length = input('\n\nSet maximum amount of words in generated text (default = 100): ')
                 if not max_length.isnumeric():
