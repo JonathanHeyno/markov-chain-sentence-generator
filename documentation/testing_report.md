@@ -20,7 +20,7 @@ quality of the generated text. Given that we are reading in quite large bodies o
 just repeating the source data.
 
 ## Code quality
-Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 8.12.
+Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 8.09.
 
 To run the Pylint check locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`
