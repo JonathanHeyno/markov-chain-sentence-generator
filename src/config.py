@@ -10,11 +10,7 @@ if os.name == "nt":
     if not os.path.exists(dirname+'\\sourcedata'):
         os.makedirs(dirname+'\\sourcedata')
 
-    if not os.path.exists(dirname+'\\saves'):
-        os.makedirs(dirname+'\\saves')
-
     SOURCE_FILE_PATH = os.path.join(dirname, 'sourcedata\\')
-    SAVE_FILE_PATH = os.path.join(dirname, 'saves\\')
 
 #Paths if not Windows envionment
 else:
@@ -23,8 +19,4 @@ else:
     if not os.path.exists(dirname + '/sourcedata/'):
         os.makedirs(dirname + '/sourcedata/')
 
-    if not os.path.exists(dirname + '/saves/'):
-        os.makedirs(dirname + '/saves/')
-
     SOURCE_FILE_PATH = os.path.join(dirname, 'sourcedata/')
-    SAVE_FILE_PATH = os.path.join(dirname, 'saves/')

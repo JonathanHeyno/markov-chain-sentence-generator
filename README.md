@@ -19,3 +19,5 @@ A program for generating text based on a given input file using Markov chains.
 [Weekly report 4](/documentation/weekly_report_4.md)
 
 [Weekly report 5](/documentation/weekly_report_5.md)
+
+[Weekly report 6](/documentation/weekly_report_6.md)
