@@ -36,7 +36,9 @@ class UI:
                 max_length = input('\n\nSet maximum amount of words in generated text (default = 100): ')
                 if not max_length.isnumeric():
                     max_length = '100'
-
-                text = service.generate_text(int(max_length))
-                print('\nGENERATED TEXT:\n\n')
-                print(text)
+                if self._service.source_file:
+                    text = service.generate_text(int(max_length))
+                    print('\nGENERATED TEXT:\n\n')
+                    print(text)
+                else:
+                    print('\nNO FILE READ IN')

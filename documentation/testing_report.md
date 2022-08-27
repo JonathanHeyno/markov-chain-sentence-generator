@@ -25,7 +25,7 @@ in better quality text, but also in more closely repeating the source data.
 A larger input file also results in more unique sentences
 
 ## Code quality
-Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.30.
+Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.29.
 
 To run the Pylint check locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`
