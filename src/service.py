@@ -226,6 +226,7 @@ class Service():
                 words_to_trie.pop(0)
                 words_to_trie.append(self._text[index])
                 i = 1
+                # while loop to see if a word is followed by .,?!
                 while index + i < num_words:
                     if not self._text[index + i] in ".,?!":
                         break
