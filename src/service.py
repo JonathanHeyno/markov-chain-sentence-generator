@@ -61,6 +61,16 @@ class Service():
 
 
     def _handle_special_characters(self, text, word, previous_word):
+        """Cleans the given word from special characters, and possibly concatenates to previous word if needed
+
+        Args:
+            text (array): an array of the words processed so far
+            word (string): the next word to be processed
+            previous_word (string): the cleaned previous word that was processed
+
+        Returns:
+            text, previous word: the text with the newest word added and the cleaned new word
+        """
         chars_to_remove = "0123456789_\"+{}():;*&@$#[]-^-\\"
         special_words = {"Mr.": "Mr", "Dr.": "Dr", "Mrs.": "Mrs", "Ms.": "Ms", "Prof.": "Prof", "E.g.": "Eg", "I.e.": "Ie", "etc.": "etc", "i.e.": "ie", "e.g.": "eg"}
         if previous_word and (previous_word[-1] == '"' or previous_word[-1] == "'") and (word[0] == '"' or word[0] == "'"):
