@@ -9,13 +9,16 @@ class UI:
         print("\n\n\nWelcome to Markov Chain Sentence Generator\n")
         choice = ''
         while choice != 'q':
-            print("\nSelect action:\nM: Set Markov chain order (current="+str(service.order)+")\nR: Read input text file\nG: Generate text\nQ: Quit")
+            print("\nSelect action:\nM: Set Markov chain order "+
+            "(current="+str(service.order)+")\nR: Read input text file\n"+
+            "G: Generate text\nQ: Quit")
 
             choice = input('\nAction: ').lower()
 
             if choice == 'r':
                 print('\nCurrent file read in: ' + service.source_file)
-                name = input("\nEnter name of new file (e.g. text_for_pytest.txt) or 'C' to cancel: ").lower()
+                name = input("\nEnter name of new file (e.g. text_for_pytest.txt) or "+
+                "'C' to cancel: ").lower()
                 if name != 'c':
                     print(service.read_source_file(name))
                     print('Creating trie...')
@@ -33,7 +36,8 @@ class UI:
                     print('\nMUST BE A NUMBER\n')
 
             if choice == 'g':
-                max_length = input('\n\nSet maximum amount of words in generated text (default = 100): ')
+                max_length = input('\n\nSet maximum amount of words in '+
+                'generated text (default = 100): ')
                 if not max_length.isnumeric():
                     max_length = '100'
                 if self._service.source_file:

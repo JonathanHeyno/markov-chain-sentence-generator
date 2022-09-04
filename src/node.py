@@ -90,4 +90,3 @@ class Node():
             return '', None
         selected = random.choices(words, cum_weights=cumulative_weights)
         return selected[0][0], selected[0][1]
-

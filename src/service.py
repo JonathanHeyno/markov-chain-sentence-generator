@@ -47,9 +47,9 @@ class Service():
         print('\n\nReading file '+filename)
 
         text = []
-        with open(filepath, encoding = 'utf-8') as f:
+        with open(filepath, encoding = 'utf-8') as file:
             previous_word = 'a'
-            for line in f:
+            for line in file:
                 line = line.strip()
                 words = line.split()
                 for word in words:
@@ -61,7 +61,8 @@ class Service():
 
 
     def _handle_special_characters(self, text, word, previous_word):
-        """Cleans the given word from special characters, and possibly concatenates to previous word if needed
+        """Cleans the given word from special characters, and possibly
+        concatenates to previous word if needed
 
         Args:
             text (array): an array of the words processed so far
@@ -72,11 +73,24 @@ class Service():
             text, previous word: the text with the newest word added and the cleaned new word
         """
         chars_to_remove = "0123456789_\"+{}():;*&@$#[]-^-\\"
-        special_words = {"Mr.": "Mr", "Dr.": "Dr", "Mrs.": "Mrs", "Ms.": "Ms", "Prof.": "Prof", "E.g.": "Eg", "I.e.": "Ie", "etc.": "etc", "i.e.": "ie", "e.g.": "eg"}
-        if previous_word and (previous_word[-1] == '"' or previous_word[-1] == "'") and (word[0] == '"' or word[0] == "'"):
+        special_words = {
+                        "Mr.": "Mr",
+                        "Dr.": "Dr",
+                        "Mrs.": "Mrs",
+                        "Ms.": "Ms",
+                        "Prof.": "Prof",
+                        "E.g.": "Eg",
+                        "I.e.": "Ie",
+                        "etc.": "etc",
+                        "i.e.": "ie",
+                        "e.g.": "eg"}
+        if previous_word and (previous_word[-1] == '"' or
+                            previous_word[-1] == "'") and (
+                            word[0] == '"' or word[0] == "'"):
             text.pop(-1)
             corrected_previous_word = previous_word[:-1]
-            while len(previous_word)>1 and (corrected_previous_word[0] == "'" or corrected_previous_word[0] == '"'):
+            while len(previous_word)>1 and (
+                corrected_previous_word[0] == "'" or corrected_previous_word[0] == '"'):
                 corrected_previous_word = corrected_previous_word[1:]
             new_previous_word = ''
             for char in corrected_previous_word:
@@ -102,7 +116,7 @@ class Service():
             if char == '-' and previous_char == '-':
                 char = ' '
             previous_char = char
-            if not char in chars_to_remove:
+            if char not in chars_to_remove:
                 cleaned_word += char
         if cleaned_word:
             if cleaned_word[0] == "'":
@@ -216,7 +230,9 @@ class Service():
 
         # add first n words to trie
         if len(words_to_trie) == self._order + 1:
-            self._word_trie.insert_words_and_increase_frequency(words_to_trie, ' '.join(stop_words_to_save), preceded_by, followed_by)
+            self._word_trie.insert_words_and_increase_frequency(
+                words_to_trie, ' '.join(stop_words_to_save),
+                preceded_by, followed_by)
 
 
         stop_words_to_save = []
@@ -242,7 +258,9 @@ class Service():
                         break
                     followed_by += self._text[index + i]
                     i += 1
-                self._word_trie.insert_words_and_increase_frequency(words_to_trie, ' '.join(stop_words_to_save), preceded_by, followed_by)
+                self._word_trie.insert_words_and_increase_frequency(
+                    words_to_trie, ' '.join(stop_words_to_save),
+                    preceded_by, followed_by)
                 stop_words_to_save = []
                 preceded_by = ''
                 followed_by = ''
@@ -257,7 +275,8 @@ class Service():
 
         Args:
             max_length (int): maximum amount of words to be generated
-            initial_words (array): Optional. The first words that start the chain. Random words chosen if empty
+            initial_words (array): Optional. The first words that start the chain.
+            Random words chosen if empty
 
         Returns:
             string: the generated text or an error message if fails
@@ -331,8 +350,9 @@ class Service():
         Returns:
             String: a punctuation that should come between the two words, or an empty string
         """
-        # If the previous word is always followed by .,?! and the next word is always preceded by .,?!
-        # we assume a .,?! must be placed between these two words, default is '.'
+        # If the previous word is always followed by .,?! and the next word is always
+        # preceded by .,?! we assume a .,?! must be placed between these two words,
+        # default is '.'
         punct = ''
         if not '_NONE_' in previous_word_followed_by and not '_NONE_' in preceded_by:
             punct = '.'
@@ -355,7 +375,7 @@ class Service():
             if stop_word != '_NONE_':
                 return stop_word
         return ''
-        
+
     def fix_words(self, text):
         """Concatenates some tokenizations and capitalizes some words.
 
@@ -367,8 +387,28 @@ class Service():
         """
         fixed_text = text[0].capitalize()
         index = 1
-        endings_to_concatenate = ["'", "'s", "'d", "'v", "n't", "'ll", "'ve", "'re", ".", ",", "?", "!"]
-        special_words = {"mr": "Mr.", "dr": "Dr.", "mrs": "Mrs.", "ms": "Ms.", "prof": "Prof.", "eg": "e.g.", "ie.": "i.e.", "etc": "etc."}
+        endings_to_concatenate = [
+                                "'",
+                                "'s",
+                                "'d",
+                                "'v",
+                                "n't",
+                                "'ll",
+                                "'ve",
+                                "'re",
+                                ".",
+                                ",",
+                                "?",
+                                "!"]
+        special_words = {
+                        "mr": "Mr.",
+                        "dr": "Dr.",
+                        "mrs": "Mrs.",
+                        "ms": "Ms.",
+                        "prof": "Prof.",
+                        "eg": "e.g.",
+                        "ie.": "i.e.",
+                        "etc": "etc."}
         previous_word = text[0].capitalize()
         while index < len(text):
             word = text[index]

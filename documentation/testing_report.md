@@ -75,7 +75,7 @@ in the rugby team and the cricket team for the **college, and** **it** **was** *
 
 
 ## Code quality
-Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.29.
+Code quality in this project is measured with Pylint according to the definitions in the file [.pylintrc](../.pylintrc). The score for code quality is currently 9.78.
 
 To run the Pylint check locally:
 1) install the dependencies in [requirements_dev.txt](../requirements_dev.txt) with `pip install -r requirements_dev.txt`

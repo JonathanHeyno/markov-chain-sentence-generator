@@ -8,7 +8,11 @@ class Trie():
     def reset(self):
         self._root = Node()
 
-    def insert_words_and_increase_frequency(self, words, stop_words='_NONE_', preceded_by='_NONE_', followed_by='_NONE_'):
+    def insert_words_and_increase_frequency(self,
+                                            words,
+                                            stop_words='_NONE_',
+                                            preceded_by='_NONE_',
+                                            followed_by='_NONE_'):
         """Creates an entry for the word list if needed and increases
         the amount of times it has been given
 
@@ -54,7 +58,7 @@ class Trie():
         """Selects initial words from the trie to start the Markov chain
 
         Args:
-            amount_of_words (int): The amount of words to be selected 
+            amount_of_words (int): The amount of words to be selected
 
         Returns:
             array, array: an array of words and their corresponding nodes in the trie
